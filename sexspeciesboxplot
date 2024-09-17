@@ -4,7 +4,7 @@ library(palmerpenguins)
 penguins %>% 
   filter(!is.na(species) & !is.na(bill_length_mm) & !is.na(sex)) %>% # filter out rows with missing values for 'species', 'bill_length_mm', or 'sex'
   ggplot(aes(x = sex, y = bill_length_mm, color = sex)) +            # Create a ggplot object with 'sex' on the x-axis, 'bill_length_mm' on the y-axis, and color by 'sex'
-  geom_boxplot() +                                                   # Add a boxplot to show the distribution of bill length for each sex
+  geom_boxplot()                                        +            # Add a boxplot to show the distribution of bill length for each sex
   geom_jitter(height = 0, width = .2)                   +            # Add jittered points to show individual data points, with a slight horizontal adjustment to avoid overlap
   theme(legend.position = "none")                       +            # Remove the legend from the plot
   facet_wrap(~ species)                                              # Separate the plot into facets based on 'species', creating a different plot for each species
