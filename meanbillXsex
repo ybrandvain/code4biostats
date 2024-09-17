@@ -1,0 +1,20 @@
+library(dplyr)
+library(ggplot2)
+
+penguins %>%  
+   dplyr::filter(!is.na(sex) & !is.na(bill_length_mm)) %>%           # filter out rows where 'sex' or 'bill_length_mm' are NA
+   dplyr::mutate(id = 1:n())                           %>%           # Add an 'id' column to the dataset to use as the x-axis in the plot
+   ggplot(aes(x = id, y = bill_length_mm, color = sex)) +            # Create a ggplot object with 'id' on the x-axis, 'bill_length_mm' on the y-axis, and color points by 'sex'
+   geom_point() +                                                    # Add points to the plot
+   geom_segment(data = . %>% 
+                   group_by(sex) %>% 
+                   mutate(mean_bill = mean(bill_length_mm)),         # Calculate the mean bill length for each 'sex'
+               aes(xend = id, yend = mean_bill), linewidth = .2) +
+   geom_hline(data = . %>%                                           # Add horizontal lines representing the mean bill length for each 'sex'
+                group_by(sex) %>% 
+                mutate(mean_bill = mean(bill_length_mm)),            # Calculate the mean bill length for each 'sex'
+              aes(yintercept = mean_bill, color = sex)) +
+   labs(y = "Bill length (mm)", title = "Data points", 
+        subtitle = "Lines connect points to predictions") +
+   facet_wrap(~sex) +                                                # Separate the plot into facets based on 'sex'
+   theme(legend.position = "none")                                   # Remove the legend from the plot
