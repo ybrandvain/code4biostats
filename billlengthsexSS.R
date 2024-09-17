@@ -2,6 +2,7 @@
 library(ggplot2)
 library(dplyr)
 library(patchwork)
+library(palmerpenguins)
 
 # Prepare the data
 penguin_SS <- penguins %>%  
