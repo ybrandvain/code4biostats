@@ -1,3 +1,7 @@
+# Using the datasauraus data set to motivate exploratory plots
+# Yaniv Brandvain
+# Applied Biostats
+
 # Load necessary packages
 library(ggplot2)       # For creating plots
 library(dplyr)         # For data manipulation
