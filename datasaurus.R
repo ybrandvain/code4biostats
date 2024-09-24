@@ -8,6 +8,9 @@ library(dplyr)         # For data manipulation
 library(datasauRus)    # For the datasaurus dataset
 library(patchwork)     # For combining plots
 
+# The datasaurus data set  is called  datasaurus_dozen, and has variables, x, y, and dataset, View() it yourself
+
+
 # 1. Summary statistics
 # We'll calculate summary statistics for each dataset in the 'datasaurus_dozen' group
 # This shows that even datasets with similar summary statistics can look very different when visualized.
