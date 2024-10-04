@@ -1,0 +1,38 @@
+# Load necessary libraries
+library(ggplot2)
+
+# Define a function to create shaded normal distribution
+create_shaded_normal <- function(mean_value, sd_value, x_min, x_max, shade_min, shade_max, label_x) {
+  
+  # Create a sequence of x values and calculate the normal distribution
+  x_values <- seq(x_min, x_max, length.out = 1000)
+  y_values <- dnorm(x_values, mean = mean_value, sd = sd_value)
+  data <- data.frame(x = x_values, y = y_values)
+  
+  # Create the plot
+  p <- ggplot(data, aes(x = x, y = y)) +
+    geom_line() +  # Normal distribution curve
+    geom_area(data = subset(data, x >= shade_min & x <= shade_max), 
+              aes(x = x, y = y), fill = "brown", alpha = 0.6) +  # Shaded area
+    labs(x = "Colony diameter (mm)", y = "Probability density") +  # Axis labels
+    annotate("text", x = label_x, y = dnorm((shade_min + shade_max) / 2, mean = mean_value, sd = sd_value), 
+             label = round(sum(subset(data, x >= shade_min & x <= shade_max)$y) / sum(data$y), digits = 2), 
+             size = 6, color = "black", fontface = "bold") +  # Annotate with area proportion
+    theme_light() +
+    scale_x_continuous(breaks = seq(x_min, x_max, 2)) +
+    scale_y_continuous(expand = c(0, 0)) +
+    theme(axis.text.x = element_text(size = 14), axis.title.x = element_text(size = 14)) +
+    coord_cartesian(ylim = c(0, 0.22))
+  
+  return(p)
+}
+
+# Example plots using the function
+p1 <- create_shaded_normal(mean_value = 8, sd_value = 2, x_min = 2, x_max = 14, shade_min = 4, shade_max = 6, label_x = 3)
+p2 <- create_shaded_normal(mean_value = 8, sd_value = 2, x_min = 2, x_max = 14, shade_min = 10, shade_max = 12, label_x = 12.5)
+p3 <- create_shaded_normal(mean_value = 8, sd_value = 2, x_min = 2, x_max = 14, shade_min = 8, shade_max = 12, label_x = 12.5)
+p4 <- create_shaded_normal(mean_value = 8, sd_value = 2, x_min = 2, x_max = 14, shade_min = 12, shade_max = 14, label_x = 13.2)
+
+# Display the plots
+library(patchwork)
+p1 + p2 + p3 + p4  # Combine the plots in a grid
