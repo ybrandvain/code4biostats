@@ -37,7 +37,7 @@ astrology <- astrology %>%
 # Weight them in your line
 astrology %>%
   group_by(astrologer,pre_challenge,post_challenge)%>%
-  tally() %>%
+  dplyr::tally() %>%
   ggplot(aes(x = pre_challenge, y= post_challenge, weight = n))+
   geom_point(aes(size=n))+
   geom_smooth(method = "lm")+
